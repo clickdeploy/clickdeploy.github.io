@@ -70,9 +70,11 @@
 										<input class="input" type="email" name="email" placeholder="Your email address"> </form>
 								</div>
 								<p class="emailSuccess slide-bottom" id="emailSuccess" style="color: #4043e5; font-weight: bold; display: none"> Thank you for your interest !
-									<br/> We will reach out to you as soon as possible.</p>
+									<br/> We will reach out to you as soon as possible.</p>	
 								<div class="control" id="email-button"> <a class="button button-primary button-block" href="#" onclick="submitForm()">SUBMIT</a> </div>
+	
 							</div>
+							 <p class="emailError slide-bottom" id="emailError" style="color: #fff; font-weight: medium;display: none"> Please enter a valid email address.</p>
 						</div>
 						<div class="hero-illustration">
 							<div class="hero-shape hero-shape-1">
@@ -336,6 +338,7 @@
 							<div class="control" id="email-button1">
 								<!-- <a class="button button-primary button-block" href="#" onclick="submitForm()">SUBMIT</a> --><a class="button button-primary button-block button-shadow" href="#" onclick="submitForm()">I AM INTERESTED !</a> </div>
 						</div>
+						<p class="emailError slide-bottom" id="emailError" style="color: #fff; font-weight: medium;display: none; margin-left: 180px"> Please enter a valid email address.</p>
 						<div class="control"> </div>
 					</div>
 				</div>
@@ -358,7 +361,7 @@
 					<li>
 						<!-- <a href="#">Support</a> --></li>
 				</ul>
-				<div class="footer-copyright" style="text-align: center">EMAIL: INFO@CLICK-DEPLOY.COM
+				<div class="footer-copyright" style="text-align: center">EMAIL: INFO@CDEPLOY.IO
 					<br/>&copy; SAPIENT STRATEGIES LLC , 1153 BERGEN PKWY STE I 159 , EVERGREEN, CO 80439</div>
 			</div>
 		</div>
@@ -368,11 +371,13 @@
 	<script>
 	$(document).ready(function() {
 		var $form = $('#frm1');
+		$(".emailError").hide();
 	});
 
 	function initialFunc() {
 		$(".emailSuccess").hide();
-		document.getElementById("myDIV").style.display = "block";
+		$(".emailError").css("color", "red");
+		//document.getElementById("myDIV").style.display = "block";
 		document.getElementById("frm1").reset();
 		document.getElementById("frm2").reset();
 	}
@@ -380,19 +385,32 @@
 	function submitForm() {
 		event.preventDefault();
 		// Get some values from elements on the page:
-		var $form = $('#frm1');
-		email = $form.find("input[name='email']").val();
-		if(email.length < 2) {
-			var $form = $('#frm2');
-			email = $form.find("input[name='email2']").val();
+		var $form1 = $('#frm1');
+		var $form2 = $('#frm2');
+		var email = '';
+		var email1 = $form1.find("input[name='email']").val();
+		var email2 = $form2.find("input[name='email2']").val();
+		console.log("email 2:" +email2);
+		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		if(regex.test(email1)){
+		  email = email1;
+		} else if (regex.test(email2)){
+		   email = email2;
 		}
-		console.log(email)
+		else{
+		  //alert("no");
+		  $(".emailError").show();
+		  exit;
+		}
+
+		//console.log(email)
 		url = 'https://cd-send-email.glitch.me/sendemail';
 		//console.log('email: '+ email)
 		$('#email-form').hide();
 		$('#email-form1').hide();
 		$('#email-button').hide();
 		$('#email-button1').hide();
+		$(".emailError").hide();
 		$(".emailSuccess").show();
 		// Send the data using post
 		var posting = $.post(url, {
