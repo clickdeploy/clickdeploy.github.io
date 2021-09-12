@@ -1753,7 +1753,16 @@ label {
 	.testimonial:nth-child(odd) {
 		top: 40px
 	}
+	
+	.middle{
+	width: 220% !important;
+	margin-left: 4%;
+  }
 }
+
+	.middle{
+	width: 100% !important;
+  }
 
 .newsletter {
 	position: relative;
